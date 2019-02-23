@@ -30,6 +30,12 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetRecordsResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetShardIteratorRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetShardIteratorResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -88,15 +94,18 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   override def describeStreamConsumer(request: DescribeStreamConsumerRequest): Future[DescribeStreamConsumerResponse] =
     underlying.describeStreamConsumer(request.toJava).toFuture.map(_.toScala)
 
-  override def describeStreamSummary(request: DescribeStreamSummaryRequest): Future[DescribeStreamSummaryResponse] = ???
+  override def describeStreamSummary(request: DescribeStreamSummaryRequest): Future[DescribeStreamSummaryResponse] =
+    underlying.describeStreamSummary(request.toJava).toFuture.map(_.toScala)
 
   override def disableEnhancedMonitoring(
       request: DisableEnhancedMonitoringRequest
-  ): Future[DisableEnhancedMonitoringResponse] = ???
+  ): Future[DisableEnhancedMonitoringResponse] =
+    underlying.disableEnhancedMonitoring(request.toJava).toFuture.map(_.toScala)
 
   override def enableEnhancedMonitoring(
       request: EnableEnhancedMonitoringRequest
-  ): Future[EnableEnhancedMonitoringResponse] = ???
+  ): Future[EnableEnhancedMonitoringResponse] =
+    underlying.enableEnhancedMonitoring(request.toJava).toFuture.map(_.toScala)
 
   override def getRecords(request: GetRecordsRequest): Future[GetRecordsResponse] =
     underlying.getRecords(request.toJava).toFuture.map(_.toScala)
@@ -106,7 +115,11 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
 
   override def getShardIterator(streamName: String,
                                 shardId: String,
-                                shardIteratorType: String): Future[GetShardIteratorResponse] = ???
+                                shardIteratorType: ShardIteratorType): Future[GetShardIteratorResponse] =
+    getShardIterator(
+      GetShardIteratorRequest()
+        .withStreamName(Some(streamName)).withShardId(Some(shardId)).withShardIteratorType(Some(shardIteratorType))
+    )
 
   override def increaseStreamRetentionPeriod(
       request: IncreaseStreamRetentionPeriodRequest

@@ -11,7 +11,7 @@ object EnhancedMetricsOps {
 
     def toJava: JavaEnhancedMetrics = {
       val result = JavaEnhancedMetrics.builder()
-      self.shardLevelMetrics.map(_.map(_.entryName)).map(_.asJava).foreach(result.shardLevelMetricsWithStrings)
+      self.shardLevelMetrics.map(_.map(_.entryName).asJava).foreach(result.shardLevelMetricsWithStrings)
       result.build()
     }
 

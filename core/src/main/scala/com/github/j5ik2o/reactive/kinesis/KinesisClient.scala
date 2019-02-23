@@ -43,7 +43,9 @@ trait KinesisClient[M[_]] {
 
   def getShardIterator(request: GetShardIteratorRequest): M[GetShardIteratorResponse]
 
-  def getShardIterator(streamName: String, shardId: String, shardIteratorType: String): M[GetShardIteratorResponse]
+  def getShardIterator(streamName: String,
+                       shardId: String,
+                       shardIteratorType: ShardIteratorType): M[GetShardIteratorResponse]
 
   def increaseStreamRetentionPeriod(
       request: IncreaseStreamRetentionPeriodRequest
