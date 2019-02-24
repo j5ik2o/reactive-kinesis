@@ -22,26 +22,28 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.DeregisterStreamConsumerResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeLimitsRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeLimitsResponseOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamRequestOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamConsumerRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamConsumerResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetRecordsRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetRecordsResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetShardIteratorRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.GetShardIteratorResponseOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryRequestOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DescribeStreamSummaryResponseOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringRequestOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.EnableEnhancedMonitoringResponseOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringRequestOps._
-  import com.github.j5ik2o.reactive.kinesis.model.v2.DisableEnhancedMonitoringResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.IncreaseStreamRetentionPeriodRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.IncreaseStreamRetentionPeriodResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListShardsRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListShardsResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamConsumersRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamConsumersResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamsRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamsResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -138,10 +140,19 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   override def listStreamConsumers(request: ListStreamConsumersRequest): Future[ListStreamConsumersResponse] =
     underlying.listStreamConsumers(request.toJava).toFuture.map(_.toScala)
 
-  override def listStreams(request: ListStreamsRequest): Future[ListStreamsResponse]                  = ???
-  override def listStreams(): Future[ListStreamsResponse]                                             = ???
-  override def listStreams(exclusiveStartStreamName: String): Future[ListStreamsResponse]             = ???
-  override def listStreams(limit: Int, exclusiveStartStreamName: String): Future[ListStreamsResponse] = ???
+  override def listStreams(request: ListStreamsRequest): Future[ListStreamsResponse] =
+    underlying.listStreams(request.toJava).toFuture.map(_.toScala)
+
+  override def listStreams(): Future[ListStreamsResponse] =
+    listStreams(ListStreamsRequest())
+
+  override def listStreams(exclusiveStartStreamName: String): Future[ListStreamsResponse] =
+    listStreams(ListStreamsRequest().withExclusiveStartStreamName(Some(exclusiveStartStreamName)))
+
+  override def listStreams(limit: Int, exclusiveStartStreamName: String): Future[ListStreamsResponse] =
+    listStreams(
+      ListStreamsRequest().withLimit(Some(limit)).withExclusiveStartStreamName(Some(exclusiveStartStreamName))
+    )
 
   override def listTagsForStream(request: ListTagsForStreamRequest): Future[ListTagsForStreamResponse] = ???
 
