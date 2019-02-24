@@ -48,6 +48,8 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListTagsForStreamResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.MergeShardsRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.MergeShardsResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -174,13 +176,26 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
         )
     )
 
-  override def putRecord(request: PutRecordRequest): Future[PutRecordResponse]                                  = ???
-  override def putRecord(streamName: String, data: ByteBuffer, partitionKey: String): Future[PutRecordResponse] = ???
+  override def putRecord(request: PutRecordRequest): Future[PutRecordResponse] =
+    underlying.putRecord(request.toJava).toFuture.map(_.toScala)
+
+  override def putRecord(streamName: String, data: ByteBuffer, partitionKey: String): Future[PutRecordResponse] =
+    putRecord(
+      PutRecordRequest().withStreamName(Some(streamName)).withData(Some(data)).withPartitionKey(Some(partitionKey))
+    )
+
   override def putRecord(streamName: String,
                          data: ByteBuffer,
                          partitionKey: String,
-                         sequenceNumberForOrdering: String): Future[PutRecordResponse] = ???
-  override def putRecords(request: PutRecordsRequest): Future[PutRecordsResponse]      = ???
+                         sequenceNumberForOrdering: String): Future[PutRecordResponse] =
+    putRecord(
+      PutRecordRequest()
+        .withStreamName(Some(streamName)).withData(Some(data)).withPartitionKey(Some(partitionKey)).withSequenceNumberForOrdering(
+          Some(sequenceNumberForOrdering)
+        )
+    )
+
+  override def putRecords(request: PutRecordsRequest): Future[PutRecordsResponse] = ???
 
   override def registerStreamConsumer(request: RegisterStreamConsumerRequest): Future[RegisterStreamConsumerResponse] =
     ???
