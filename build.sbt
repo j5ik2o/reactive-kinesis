@@ -91,7 +91,8 @@ val coreSettings = Seq(
                                      Wart.ImplicitParameter,
                                      Wart.StringPlusAny,
                                      Wart.Overloading),
-  wartremoverExcluded += baseDirectory.value / "src" / "test" / "scala"
+  wartremoverExcluded += baseDirectory.value / "src" / "test" / "scala",
+  envVars in Test := Map("AWS_CBOR_DISABLE" -> "1")
 ) ++ scalaStyleSettings
 
 lazy val test = (project in file("test"))
