@@ -1,17 +1,14 @@
-package com.github.j5ik2o.reactive.kinesis
+package com.github.j5ik2o.reactive.kinesis.cats
 
+import cats.data.ReaderT
 import com.github.j5ik2o.reactive.kinesis.model._
-import com.github.j5ik2o.reactive.kinesis.model.rs.ListStreamConsumersPublisher
-import com.github.j5ik2o.reactive.kinesis.model.v2.rs.ListStreamConsumersPublisherImpl
-import software.amazon.awssdk.services.kinesis.KinesisAsyncClient
+import software.amazon.awssdk.services.kinesis
 
 import scala.concurrent.{ ExecutionContext, Future }
 
-private[kinesis] class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(
-    implicit ec: ExecutionContext
-) extends KinesisAsyncClientV2 {
-
-  import KinesisAsyncClientV2._
+private[kinesis] class KinesisAsyncClientV2Impl(override val underlying: kinesis.KinesisAsyncClient)
+    extends KinesisAsyncClientV2 {
+  import com.github.j5ik2o.reactive.kinesis.KinesisAsyncClientV2._
   import com.github.j5ik2o.reactive.kinesis.model.v2.AddTagsToStreamRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.AddTagsToStreamResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.CreateStreamRequestOps._
@@ -67,99 +64,157 @@ private[kinesis] class KinesisAsyncClientV2Impl(override val underlying: Kinesis
   import com.github.j5ik2o.reactive.kinesis.model.v2.UpdateShardCountRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.UpdateShardCountResponseOps._
 
-  override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
+  override def addTagsToStream(
+      request: AddTagsToStreamRequest
+  ): ReaderT[Future, ExecutionContext, AddTagsToStreamResponse] = ReaderT { implicit ec =>
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def createStream(request: CreateStreamRequest): Future[CreateStreamResponse] =
-    underlying.createStream(request.toJava).toFuture.map(_.toScala)
+  override def createStream(request: CreateStreamRequest): ReaderT[Future, ExecutionContext, CreateStreamResponse] =
+    ReaderT { implicit ec =>
+      underlying.createStream(request.toJava).toFuture.map(_.toScala)
+    }
 
   override def decreaseStreamRetentionPeriod(
       request: DecreaseStreamRetentionPeriodRequest
-  ): Future[DecreaseStreamRetentionPeriodResponse] =
+  ): ReaderT[Future, ExecutionContext, DecreaseStreamRetentionPeriodResponse] = ReaderT { implicit ec =>
     underlying.decreaseStreamRetentionPeriod(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def deleteStream(request: DeleteStreamRequest): Future[DeleteStreamResponse] =
-    underlying.deleteStream(request.toJava).toFuture.map(_.toScala)
+  override def deleteStream(request: DeleteStreamRequest): ReaderT[Future, ExecutionContext, DeleteStreamResponse] =
+    ReaderT { implicit ec =>
+      underlying.deleteStream(request.toJava).toFuture.map(_.toScala)
+    }
 
   override def deregisterStreamConsumer(
       request: DeregisterStreamConsumerRequest
-  ): Future[DeregisterStreamConsumerResponse] =
+  ): ReaderT[Future, ExecutionContext, DeregisterStreamConsumerResponse] = ReaderT { implicit ec =>
     underlying.deregisterStreamConsumer(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def describeLimits(request: DescribeLimitsRequest): Future[DescribeLimitsResponse] =
+  override def describeLimits(
+      request: DescribeLimitsRequest
+  ): ReaderT[Future, ExecutionContext, DescribeLimitsResponse] = ReaderT { implicit ec =>
     underlying.describeLimits(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def describeStream(request: DescribeStreamRequest): Future[DescribeStreamResponse] =
+  override def describeStream(
+      request: DescribeStreamRequest
+  ): ReaderT[Future, ExecutionContext, DescribeStreamResponse] = ReaderT { implicit ec =>
     underlying.describeStream(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def describeStreamConsumer(request: DescribeStreamConsumerRequest): Future[DescribeStreamConsumerResponse] =
+  override def describeStreamConsumer(
+      request: DescribeStreamConsumerRequest
+  ): ReaderT[Future, ExecutionContext, DescribeStreamConsumerResponse] = ReaderT { implicit ec =>
     underlying.describeStreamConsumer(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def describeStreamSummary(request: DescribeStreamSummaryRequest): Future[DescribeStreamSummaryResponse] =
+  override def describeStreamSummary(
+      request: DescribeStreamSummaryRequest
+  ): ReaderT[Future, ExecutionContext, DescribeStreamSummaryResponse] = ReaderT { implicit ec =>
     underlying.describeStreamSummary(request.toJava).toFuture.map(_.toScala)
+  }
 
   override def disableEnhancedMonitoring(
       request: DisableEnhancedMonitoringRequest
-  ): Future[DisableEnhancedMonitoringResponse] =
+  ): ReaderT[Future, ExecutionContext, DisableEnhancedMonitoringResponse] = ReaderT { implicit ec =>
     underlying.disableEnhancedMonitoring(request.toJava).toFuture.map(_.toScala)
+  }
 
   override def enableEnhancedMonitoring(
       request: EnableEnhancedMonitoringRequest
-  ): Future[EnableEnhancedMonitoringResponse] =
+  ): ReaderT[Future, ExecutionContext, EnableEnhancedMonitoringResponse] = ReaderT { implicit ec =>
     underlying.enableEnhancedMonitoring(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def getRecords(request: GetRecordsRequest): Future[GetRecordsResponse] =
-    underlying.getRecords(request.toJava).toFuture.map(_.toScala)
+  override def getRecords(request: GetRecordsRequest): ReaderT[Future, ExecutionContext, GetRecordsResponse] = ReaderT {
+    implicit ec =>
+      underlying.getRecords(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def getShardIterator(request: GetShardIteratorRequest): Future[GetShardIteratorResponse] =
+  override def getShardIterator(
+      request: GetShardIteratorRequest
+  ): ReaderT[Future, ExecutionContext, GetShardIteratorResponse] = ReaderT { implicit ec =>
     underlying.getShardIterator(request.toJava).toFuture.map(_.toScala)
+  }
 
   override def increaseStreamRetentionPeriod(
       request: IncreaseStreamRetentionPeriodRequest
-  ): Future[IncreaseStreamRetentionPeriodResponse] =
+  ): ReaderT[Future, ExecutionContext, IncreaseStreamRetentionPeriodResponse] = ReaderT { implicit ec =>
     underlying.increaseStreamRetentionPeriod(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def listShards(request: ListShardsRequest): Future[ListShardsResponse] =
-    underlying.listShards(request.toJava).toFuture.map(_.toScala)
+  override def listShards(request: ListShardsRequest): ReaderT[Future, ExecutionContext, ListShardsResponse] = ReaderT {
+    implicit ec =>
+      underlying.listShards(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def listStreamConsumers(request: ListStreamConsumersRequest): Future[ListStreamConsumersResponse] =
+  override def listStreamConsumers(
+      request: ListStreamConsumersRequest
+  ): ReaderT[Future, ExecutionContext, ListStreamConsumersResponse] = ReaderT { implicit ec =>
     underlying.listStreamConsumers(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def listStreamConsumersPaginator(request: ListStreamConsumersRequest): ListStreamConsumersPublisher =
-    new ListStreamConsumersPublisherImpl(underlying.listStreamConsumersPaginator(request.toJava))
+  override def listStreams(request: ListStreamsRequest): ReaderT[Future, ExecutionContext, ListStreamsResponse] =
+    ReaderT { implicit ec =>
+      underlying.listStreams(request.toJava).toFuture.map(_.toScala)
+    }
 
-  override def listStreams(request: ListStreamsRequest): Future[ListStreamsResponse] =
-    underlying.listStreams(request.toJava).toFuture.map(_.toScala)
-
-  override def listTagsForStream(request: ListTagsForStreamRequest): Future[ListTagsForStreamResponse] =
+  override def listTagsForStream(
+      request: ListTagsForStreamRequest
+  ): ReaderT[Future, ExecutionContext, ListTagsForStreamResponse] = ReaderT { implicit ec =>
     underlying.listTagsForStream(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def mergeShards(request: MergeShardsRequest): Future[MergeShardsResponse] =
-    underlying.mergeShards(request.toJava).toFuture.map(_.toScala)
+  override def mergeShards(request: MergeShardsRequest): ReaderT[Future, ExecutionContext, MergeShardsResponse] =
+    ReaderT { implicit ec =>
+      underlying.mergeShards(request.toJava).toFuture.map(_.toScala)
+    }
 
-  override def putRecord(request: PutRecordRequest): Future[PutRecordResponse] =
-    underlying.putRecord(request.toJava).toFuture.map(_.toScala)
+  override def putRecord(request: PutRecordRequest): ReaderT[Future, ExecutionContext, PutRecordResponse] = ReaderT {
+    implicit ec =>
+      underlying.putRecord(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def putRecords(request: PutRecordsRequest): Future[PutRecordsResponse] =
-    underlying.putRecords(request.toJava).toFuture.map(_.toScala)
+  override def putRecords(request: PutRecordsRequest): ReaderT[Future, ExecutionContext, PutRecordsResponse] = ReaderT {
+    implicit ec =>
+      underlying.putRecords(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def registerStreamConsumer(request: RegisterStreamConsumerRequest): Future[RegisterStreamConsumerResponse] =
+  override def registerStreamConsumer(
+      request: RegisterStreamConsumerRequest
+  ): ReaderT[Future, ExecutionContext, RegisterStreamConsumerResponse] = ReaderT { implicit ec =>
     underlying.registerStreamConsumer(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def removeTagsFromStream(request: RemoveTagsFromStreamRequest): Future[RemoveTagsFromStreamResponse] =
+  override def removeTagsFromStream(
+      request: RemoveTagsFromStreamRequest
+  ): ReaderT[Future, ExecutionContext, RemoveTagsFromStreamResponse] = ReaderT { implicit ec =>
     underlying.removeTagsFromStream(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def splitShard(request: SplitShardRequest): Future[SplitShardResponse] =
-    underlying.splitShard(request.toJava).toFuture.map(_.toScala)
+  override def splitShard(request: SplitShardRequest): ReaderT[Future, ExecutionContext, SplitShardResponse] = ReaderT {
+    implicit ec =>
+      underlying.splitShard(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def startStreamEncryption(request: StartStreamEncryptionRequest): Future[StartStreamEncryptionResponse] =
+  override def startStreamEncryption(
+      request: StartStreamEncryptionRequest
+  ): ReaderT[Future, ExecutionContext, StartStreamEncryptionResponse] = ReaderT { implicit ec =>
     underlying.startStreamEncryption(request.toJava).toFuture.map(_.toScala)
+  }
 
-  override def stopStreamEncryption(request: StopStreamEncryptionRequest): Future[StopStreamEncryptionResponse] =
+  override def stopStreamEncryption(
+      request: StopStreamEncryptionRequest
+  ): ReaderT[Future, ExecutionContext, StopStreamEncryptionResponse] = ReaderT { implicit ec =>
     underlying.stopStreamEncryption(request.toJava).toFuture.map(_.toScala)
+  }
 
   override def updateShardCount(
       request: UpdateShardCountRequest
-  ): Future[UpdateShardCountResponse] = underlying.updateShardCount(request.toJava).toFuture.map(_.toScala)
+  ): ReaderT[Future, ExecutionContext, UpdateShardCountResponse] = ReaderT { implicit ec =>
+    underlying.updateShardCount(request.toJava).toFuture.map(_.toScala)
+  }
 
 }

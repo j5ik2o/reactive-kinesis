@@ -9,7 +9,8 @@ trait KinesisClient[M[_]] {
 
   def createStream(request: CreateStreamRequest): M[CreateStreamResponse]
 
-  def createStream(streamName: String, shardCount: Int): M[CreateStreamResponse]
+  def createStream(streamName: String, shardCount: Int): M[CreateStreamResponse] =
+    createStream(CreateStreamRequest().withStreamName(Some(streamName)).withShardCount(Some(shardCount)))
 
   def decreaseStreamRetentionPeriod(
       request: DecreaseStreamRetentionPeriodRequest
@@ -17,7 +18,8 @@ trait KinesisClient[M[_]] {
 
   def deleteStream(request: DeleteStreamRequest): M[DeleteStreamResponse]
 
-  def deleteStream(streamName: String): M[DeleteStreamResponse]
+  def deleteStream(streamName: String): M[DeleteStreamResponse] =
+    deleteStream(DeleteStreamRequest().withStreamName(Some(streamName)))
 
   def deregisterStreamConsumer(request: DeregisterStreamConsumerRequest): M[DeregisterStreamConsumerResponse]
 
@@ -25,11 +27,26 @@ trait KinesisClient[M[_]] {
 
   def describeStream(request: DescribeStreamRequest): M[DescribeStreamResponse]
 
-  def describeStream(streamName: String): M[DescribeStreamResponse]
+  def describeStream(streamName: String): M[DescribeStreamResponse] =
+    describeStream(
+      DescribeStreamRequest()
+        .withStreamName(Some(streamName))
+    )
 
-  def describeStream(streamName: String, exclusiveStartShardId: String): M[DescribeStreamResponse]
+  def describeStream(streamName: String, exclusiveStartShardId: String): M[DescribeStreamResponse] =
+    describeStream(
+      DescribeStreamRequest()
+        .withStreamName(Some(streamName))
+        .withExclusiveStartShardId(Some(exclusiveStartShardId))
+    )
 
-  def describeStream(streamName: String, limit: Int, exclusiveStartShardId: String): M[DescribeStreamResponse]
+  def describeStream(streamName: String, limit: Int, exclusiveStartShardId: String): M[DescribeStreamResponse] =
+    describeStream(
+      DescribeStreamRequest()
+        .withStreamName(Some(streamName))
+        .withLimit(Some(limit))
+        .withExclusiveStartShardId(Some(exclusiveStartShardId))
+    )
 
   def describeStreamConsumer(request: DescribeStreamConsumerRequest): M[DescribeStreamConsumerResponse]
 
@@ -45,7 +62,11 @@ trait KinesisClient[M[_]] {
 
   def getShardIterator(streamName: String,
                        shardId: String,
-                       shardIteratorType: ShardIteratorType): M[GetShardIteratorResponse]
+                       shardIteratorType: ShardIteratorType): M[GetShardIteratorResponse] =
+    getShardIterator(
+      GetShardIteratorRequest()
+        .withStreamName(Some(streamName)).withShardId(Some(shardId)).withShardIteratorType(Some(shardIteratorType))
+    )
 
   def increaseStreamRetentionPeriod(
       request: IncreaseStreamRetentionPeriodRequest
@@ -57,26 +78,46 @@ trait KinesisClient[M[_]] {
 
   def listStreams(request: ListStreamsRequest): M[ListStreamsResponse]
 
-  def listStreams(): M[ListStreamsResponse]
+  def listStreams(): M[ListStreamsResponse] =
+    listStreams(ListStreamsRequest())
 
-  def listStreams(exclusiveStartStreamName: String): M[ListStreamsResponse]
+  def listStreams(exclusiveStartStreamName: String): M[ListStreamsResponse] =
+    listStreams(ListStreamsRequest().withExclusiveStartStreamName(Some(exclusiveStartStreamName)))
 
-  def listStreams(limit: Int, exclusiveStartStreamName: String): M[ListStreamsResponse]
+  def listStreams(limit: Int, exclusiveStartStreamName: String): M[ListStreamsResponse] =
+    listStreams(
+      ListStreamsRequest().withLimit(Some(limit)).withExclusiveStartStreamName(Some(exclusiveStartStreamName))
+    )
 
   def listTagsForStream(request: ListTagsForStreamRequest): M[ListTagsForStreamResponse]
 
   def mergeShards(request: MergeShardsRequest): M[MergeShardsResponse]
 
-  def mergeShards(streamName: String, shardToMerge: String, adjacentShardToMerge: String): M[MergeShardsResponse]
+  def mergeShards(streamName: String, shardToMerge: String, adjacentShardToMerge: String): M[MergeShardsResponse] =
+    mergeShards(
+      MergeShardsRequest()
+        .withStreamName(Some(streamName)).withShardToMerge(Some(shardToMerge)).withAdjacentShardToMerge(
+          Some(adjacentShardToMerge)
+        )
+    )
 
   def putRecord(request: PutRecordRequest): M[PutRecordResponse]
 
-  def putRecord(streamName: String, data: ByteBuffer, partitionKey: String): M[PutRecordResponse]
+  def putRecord(streamName: String, data: ByteBuffer, partitionKey: String): M[PutRecordResponse] =
+    putRecord(
+      PutRecordRequest().withStreamName(Some(streamName)).withData(Some(data)).withPartitionKey(Some(partitionKey))
+    )
 
   def putRecord(streamName: String,
                 data: ByteBuffer,
                 partitionKey: String,
-                sequenceNumberForOrdering: String): M[PutRecordResponse]
+                sequenceNumberForOrdering: String): M[PutRecordResponse] =
+    putRecord(
+      PutRecordRequest()
+        .withStreamName(Some(streamName)).withData(Some(data)).withPartitionKey(Some(partitionKey)).withSequenceNumberForOrdering(
+          Some(sequenceNumberForOrdering)
+        )
+    )
 
   def putRecords(request: PutRecordsRequest): M[PutRecordsResponse]
 
@@ -86,7 +127,13 @@ trait KinesisClient[M[_]] {
 
   def splitShard(request: SplitShardRequest): M[SplitShardResponse]
 
-  def splitShard(streamName: String, shardToSplit: String, newStartingHashKey: String): M[SplitShardResponse]
+  def splitShard(streamName: String, shardToSplit: String, newStartingHashKey: String): M[SplitShardResponse] =
+    splitShard(
+      SplitShardRequest()
+        .withStreamName(Some(streamName)).withShardToSplit(Some(shardToSplit)).withNewStartingHashKey(
+          Some(newStartingHashKey)
+        )
+    )
 
   def startStreamEncryption(request: StartStreamEncryptionRequest): M[StartStreamEncryptionResponse]
 
