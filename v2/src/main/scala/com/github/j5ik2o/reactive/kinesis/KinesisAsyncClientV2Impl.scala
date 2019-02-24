@@ -40,6 +40,8 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.IncreaseStreamRetentionPeriodResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListShardsRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListShardsResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamConsumersRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamConsumersResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -133,7 +135,8 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   override def listShards(request: ListShardsRequest): Future[ListShardsResponse] =
     underlying.listShards(request.toJava).toFuture.map(_.toScala)
 
-  override def listStreamConsumers(request: ListStreamConsumersRequest): Future[ListStreamConsumersResponse] = ???
+  override def listStreamConsumers(request: ListStreamConsumersRequest): Future[ListStreamConsumersResponse] =
+    underlying.listStreamConsumers(request.toJava).toFuture.map(_.toScala)
 
   override def listStreams(request: ListStreamsRequest): Future[ListStreamsResponse]                  = ???
   override def listStreams(): Future[ListStreamsResponse]                                             = ???
