@@ -46,6 +46,8 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListStreamsResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListTagsForStreamRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.ListTagsForStreamResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.MergeShardsRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.MergeShardsResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -159,10 +161,18 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   override def listTagsForStream(request: ListTagsForStreamRequest): Future[ListTagsForStreamResponse] =
     underlying.listTagsForStream(request.toJava).toFuture.map(_.toScala)
 
-  override def mergeShards(request: MergeShardsRequest): Future[MergeShardsResponse] = ???
+  override def mergeShards(request: MergeShardsRequest): Future[MergeShardsResponse] =
+    underlying.mergeShards(request.toJava).toFuture.map(_.toScala)
+
   override def mergeShards(streamName: String,
                            shardToMerge: String,
-                           adjacentShardToMerge: String): Future[MergeShardsResponse] = ???
+                           adjacentShardToMerge: String): Future[MergeShardsResponse] =
+    mergeShards(
+      MergeShardsRequest()
+        .withStreamName(Some(streamName)).withShardToMerge(Some(shardToMerge)).withAdjacentShardToMerge(
+          Some(adjacentShardToMerge)
+        )
+    )
 
   override def putRecord(request: PutRecordRequest): Future[PutRecordResponse]                                  = ???
   override def putRecord(streamName: String, data: ByteBuffer, partitionKey: String): Future[PutRecordResponse] = ???
