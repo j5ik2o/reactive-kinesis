@@ -50,6 +50,20 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
   import com.github.j5ik2o.reactive.kinesis.model.v2.MergeShardsResponseOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordRequestOps._
   import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordsRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.PutRecordsResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.RegisterStreamConsumerRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.RegisterStreamConsumerResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.RemoveTagsFromStreamRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.RemoveTagsFromStreamResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.SplitShardRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.SplitShardResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.StartStreamEncryptionRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.StartStreamEncryptionResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.StopStreamEncryptionRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.StopStreamEncryptionResponseOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.UpdateShardCountRequestOps._
+  import com.github.j5ik2o.reactive.kinesis.model.v2.UpdateShardCountResponseOps._
 
   override def addTagsToStream(request: AddTagsToStreamRequest): Future[AddTagsToStreamResponse] =
     underlying.addTagsToStream(request.toJava).toFuture.map(_.toScala)
@@ -195,25 +209,36 @@ class KinesisAsyncClientV2Impl(override val underlying: KinesisAsyncClient)(impl
         )
     )
 
-  override def putRecords(request: PutRecordsRequest): Future[PutRecordsResponse] = ???
+  override def putRecords(request: PutRecordsRequest): Future[PutRecordsResponse] =
+    underlying.putRecords(request.toJava).toFuture.map(_.toScala)
 
   override def registerStreamConsumer(request: RegisterStreamConsumerRequest): Future[RegisterStreamConsumerResponse] =
-    ???
+    underlying.registerStreamConsumer(request.toJava).toFuture.map(_.toScala)
 
   override def removeTagsFromStream(request: RemoveTagsFromStreamRequest): Future[RemoveTagsFromStreamResponse] =
-    ???
+    underlying.removeTagsFromStream(request.toJava).toFuture.map(_.toScala)
 
-  override def splitShard(request: SplitShardRequest): Future[SplitShardResponse] = ???
+  override def splitShard(request: SplitShardRequest): Future[SplitShardResponse] =
+    underlying.splitShard(request.toJava).toFuture.map(_.toScala)
+
   override def splitShard(streamName: String,
                           shardToSplit: String,
-                          newStartingHashKey: String): Future[SplitShardResponse] = ???
+                          newStartingHashKey: String): Future[SplitShardResponse] =
+    splitShard(
+      SplitShardRequest()
+        .withStreamName(Some(streamName)).withShardToSplit(Some(shardToSplit)).withNewStartingHashKey(
+          Some(newStartingHashKey)
+        )
+    )
 
-  override def startStreamEncryption(request: StartStreamEncryptionRequest): Future[StartStreamEncryptionResponse] = ???
+  override def startStreamEncryption(request: StartStreamEncryptionRequest): Future[StartStreamEncryptionResponse] =
+    underlying.startStreamEncryption(request.toJava).toFuture.map(_.toScala)
 
-  override def stopStreamEncryption(request: StopStreamEncryptionRequest): Future[StopStreamEncryptionResponse] = ???
+  override def stopStreamEncryption(request: StopStreamEncryptionRequest): Future[StopStreamEncryptionResponse] =
+    underlying.stopStreamEncryption(request.toJava).toFuture.map(_.toScala)
 
   override def updateShardCount(
-      updateShardCountRequest: UpdateShardCountRequest
-  ): Future[UpdateShardCountResponse] = ???
+      request: UpdateShardCountRequest
+  ): Future[UpdateShardCountResponse] = underlying.updateShardCount(request.toJava).toFuture.map(_.toScala)
 
 }

@@ -92,6 +92,6 @@ trait KinesisClient[M[_]] {
 
   def stopStreamEncryption(request: StopStreamEncryptionRequest): M[StopStreamEncryptionResponse]
 
-  def updateShardCount(updateShardCountRequest: UpdateShardCountRequest): M[UpdateShardCountResponse]
+  def updateShardCount(request: UpdateShardCountRequest): M[UpdateShardCountResponse]
 
 }
