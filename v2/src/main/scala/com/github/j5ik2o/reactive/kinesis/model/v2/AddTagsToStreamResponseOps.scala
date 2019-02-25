@@ -1,0 +1,20 @@
+package com.github.j5ik2o.reactive.kinesis.model.v2
+
+import com.github.j5ik2o.reactive.kinesis.model.{ AddTagsToStreamResponse => ScalaAddTagsToStreamResponse }
+import software.amazon.awssdk.services.kinesis.model.{ AddTagsToStreamResponse => JavaAddTagsToStreamResponse }
+
+import scala.collection.JavaConverters._
+
+object AddTagsToStreamResponseOps {
+
+  implicit class JavaAddTagsToStreamResponseOps(val self: JavaAddTagsToStreamResponse) extends AnyVal {
+
+    def toScala: ScalaAddTagsToStreamResponse = {
+      ScalaAddTagsToStreamResponse()
+        .withStatusCode(Some(self.sdkHttpResponse().statusCode()))
+        .withHttpHeaders(Some(self.sdkHttpResponse().headers().asScala.toMap.mapValues(_.asScala)))
+    }
+
+  }
+
+}
