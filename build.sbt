@@ -70,6 +70,7 @@ val coreSettings = Seq(
   resolvers ++= Seq(
     Resolver.bintrayRepo("danslapman", "maven"),
     Resolver.sonatypeRepo("releases"),
+    "Seasar Repository" at "http://maven.seasar.org/maven2/",
     "kinesis Local Repository" at "https://s3-us-west-2.amazonaws.com/kinesis-local/release"
   ),
   addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.7"),
