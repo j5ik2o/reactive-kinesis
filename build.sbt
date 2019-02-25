@@ -92,6 +92,7 @@ val coreSettings = Seq(
                                      Wart.StringPlusAny,
                                      Wart.Overloading),
   wartremoverExcluded += baseDirectory.value / "src" / "test" / "scala",
+  fork in Test := true,
   envVars in Test := Map("AWS_CBOR_DISABLE" -> "1")
 ) ++ scalaStyleSettings
 
