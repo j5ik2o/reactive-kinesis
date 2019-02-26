@@ -1,9 +1,8 @@
 package com.github.j5ik2o.reactive.kinesis.model.v2.rs
 
-import com.github.j5ik2o.reactive.kinesis.model.ListStreamConsumersResponse
 import com.github.j5ik2o.reactive.kinesis.model.rs.ListStreamConsumersPublisher
-import org.reactivestreams.{ Subscriber, Subscription }
 import com.github.j5ik2o.reactive.kinesis.model.{ ListStreamConsumersResponse => ScalaListStreamConsumersResponse }
+import org.reactivestreams.{ Subscriber, Subscription }
 import software.amazon.awssdk.services.kinesis.model.{ ListStreamConsumersResponse => JavaListStreamConsumersResponse }
 
 import scala.collection.mutable.ListBuffer
@@ -36,5 +35,5 @@ class ListStreamConsumersPublisherImpl(
 
   private val subscribers = ListBuffer.empty[Subscriber[_ >: ScalaListStreamConsumersResponse]]
 
-  override def subscribe(s: Subscriber[_ >: ListStreamConsumersResponse]): Unit = subscribers.append(s)
+  override def subscribe(s: Subscriber[_ >: ScalaListStreamConsumersResponse]): Unit = subscribers.append(s)
 }

@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.kinesis.model.{
 }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object EnableEnhancedMonitoringResponseOps {
 
@@ -18,6 +19,7 @@ object EnableEnhancedMonitoringResponseOps {
     def toScala: ScalaEnableEnhancedMonitoringResponse = {
       ScalaEnableEnhancedMonitoringResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
         .withStreamName(Option(self.streamName()))
         .withCurrentShardLevelMetrics(

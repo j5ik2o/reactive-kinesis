@@ -4,6 +4,7 @@ import com.github.j5ik2o.reactive.kinesis.model.{ DeleteStreamResponse => ScalaD
 import software.amazon.awssdk.services.kinesis.model.{ DeleteStreamResponse => JavaDeleteStreamResponse }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object DeleteStreamResponseOps {
 
@@ -12,6 +13,7 @@ object DeleteStreamResponseOps {
     def toScala: ScalaDeleteStreamResponse = {
       ScalaDeleteStreamResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
     }
 

@@ -6,7 +6,10 @@ import com.github.j5ik2o.reactive.kinesis.model.{
 import software.amazon.awssdk.services.kinesis.model.{
   RegisterStreamConsumerResponse => JavaRegisterStreamConsumerResponse
 }
+
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
+
 object RegisterStreamConsumerResponseOps {
 
   import ConsumerOps._
@@ -16,6 +19,7 @@ object RegisterStreamConsumerResponseOps {
     def toScala: ScalaRegisterStreamConsumerResponse = {
       ScalaRegisterStreamConsumerResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
         .withConsumer(Option(self.consumer()).map(_.toScala))
     }
