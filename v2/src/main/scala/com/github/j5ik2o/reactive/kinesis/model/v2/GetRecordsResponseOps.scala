@@ -4,6 +4,7 @@ import com.github.j5ik2o.reactive.kinesis.model.{ GetRecordsResponse => ScalaGet
 import software.amazon.awssdk.services.kinesis.model.{ GetRecordsResponse => JavaGetRecordsResponse }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object GetRecordsResponseOps {
 
@@ -14,6 +15,7 @@ object GetRecordsResponseOps {
     def toScala: ScalaGetRecordsResponse = {
       ScalaGetRecordsResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
         .withRecords(Option(self.records()).map(_.asScala.map(_.toScala)))
         .withNextShardIterator(Option(self.nextShardIterator()))

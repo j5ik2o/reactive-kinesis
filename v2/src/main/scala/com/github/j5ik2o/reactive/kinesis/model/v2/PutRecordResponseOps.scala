@@ -4,6 +4,7 @@ import com.github.j5ik2o.reactive.kinesis.model.{ EncryptionType, PutRecordRespo
 import software.amazon.awssdk.services.kinesis.model.{ PutRecordResponse => JavaPutRecordResponse }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object PutRecordResponseOps {
 
@@ -12,6 +13,7 @@ object PutRecordResponseOps {
     def toScala: ScalaJavaPutRecordResponse = {
       ScalaJavaPutRecordResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
         .withShardId(Some(self.shardId()))
         .withSequenceNumber(Some(self.sequenceNumber()))

@@ -8,6 +8,7 @@ import software.amazon.awssdk.services.kinesis.model.{
 }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object DeregisterStreamConsumerResponseOps {
 
@@ -17,6 +18,7 @@ object DeregisterStreamConsumerResponseOps {
     def toScala: ScalaDeregisterStreamConsumerResponse = {
       ScalaDeregisterStreamConsumerResponse()
         .withStatusCode(Some(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Some(self.sdkHttpResponse().headers().asScala.toMap.mapValues(_.asScala)))
     }
 

@@ -4,6 +4,7 @@ import com.github.j5ik2o.reactive.kinesis.model.{ UpdateShardCountResponse => Sc
 import software.amazon.awssdk.services.kinesis.model.{ UpdateShardCountResponse => JavaUpdateShardCountResponse }
 
 import scala.collection.JavaConverters._
+import scala.compat.java8.OptionConverters._
 
 object UpdateShardCountResponseOps {
 
@@ -12,6 +13,7 @@ object UpdateShardCountResponseOps {
     def toScala: ScalaUpdateShardCountResponse = {
       ScalaUpdateShardCountResponse()
         .withStatusCode(Option(self.sdkHttpResponse().statusCode()))
+        .withStatusText(self.sdkHttpResponse().statusText().asScala)
         .withHttpHeaders(Option(self.sdkHttpResponse().headers().asScala.mapValues(_.asScala).toMap))
         .withStreamName(Option(self.streamName()))
         .withCurrentShardCount(Option(self.currentShardCount()))
