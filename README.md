@@ -1,5 +1,7 @@
 # reactive-kinesis
 
+**This project is in-active, Refer to https://github.com/j5ik2o/reactive-aws-client/tree/master/reactive-aws-kinesis**
+
 [![CircleCI](https://circleci.com/gh/j5ik2o/reactive-kinesis/tree/master.svg?style=shield&circle-token=9220bb10751d6e0d9953154f4bf24d3993fa268d)](https://circleci.com/gh/j5ik2o/reactive-kinesis/tree/master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.j5ik2o/reactive-kinesis-core_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.j5ik2o/reactive-kinesis-core_2.12)
 [![Scaladoc](http://javadoc-badge.appspot.com/com.github.j5ik2o/reactive-kinesis-core_2.12.svg?label=scaladoc)](http://javadoc-badge.appspot.com/com.github.j5ik2o/reactive-kinesis-core_2.12/com/github/j5ik2o/reactive-kinesis/index.html?javadocio=true)
